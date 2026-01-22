@@ -1,11 +1,33 @@
-<script>
-  fetch('https://sussybaka751.github.io/The-Great-War-Notes/index.html')
-    .then(r => r.text())
-    .then(html => {
-      var win = window.open('about:blank', '_blank', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
-      win.document.write(html);
-      win.document.close();
-    });
-    // This closes the current tab so it disappears
-    setTimeout(() => { window.close(); }, 500);
-</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+</head>
+<body>
+    <script>
+        // Fetches the OS code from your main index file
+        fetch('index.html')
+            .then(response => response.text())
+            .then(html => {
+                // Opens the chromeless window
+                const width = screen.availWidth;
+                const height = screen.availHeight;
+                const features = `menubar=no,toolbar=no,location=no,status=no,width=${width},height=${height}`;
+                
+                const win = window.open("about:blank", "_blank", features);
+                
+                if (win) {
+                    win.document.open();
+                    win.document.write(html);
+                    win.document.close();
+                    
+                    // Optional: Change the original tab to Google so it looks like you left
+                    window.location.replace("https://www.google.com");
+                } else {
+                    alert("Please allow popups for this site so the OS can launch!");
+                }
+            })
+            .catch(err => console.error("Error loading OS:", err));
+    </script>
+</body>
+</html>
