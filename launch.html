@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Loading...</title>
+    <title>Google Drive - Request Access</title>
+    <style>
+        body { font-family: 'Roboto', arial, sans-serif; background-color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { text-align: center; }
+        .btn { background-color: #1a73e8; color: white; padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn:hover { background-color: #1765cc; }
+        p { color: #3c4043; font-size: 16px; }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <p>You need permission to access this document.</p>
+        <button class="btn" onclick="launchOS()">Request Access</button>
+    </div>
+
     <script>
-        // Fetches the OS code from your main index file
-        fetch('index.html')
-            .then(response => response.text())
-            .then(html => {
-                // Opens the chromeless window
-                const width = screen.availWidth;
-                const height = screen.availHeight;
-                const features = `menubar=no,toolbar=no,location=no,status=no,width=${width},height=${height}`;
-                
-                const win = window.open("about:blank", "_blank", features);
-                
-                if (win) {
-                    win.document.open();
-                    win.document.write(html);
-                    win.document.close();
+        function launchOS() {
+            fetch('index.html')
+                .then(r => r.text())
+                .then(html => {
+                    const width = screen.availWidth;
+                    const height = screen.availHeight;
+                    const features = `menubar=no,toolbar=no,location=no,status=no,width=${width},height=${height}`;
                     
-                    // Optional: Change the original tab to Google so it looks like you left
-                    window.location.replace("https://www.google.com");
-                } else {
-                    alert("Please allow popups for this site so the OS can launch!");
-                }
-            })
-            .catch(err => console.error("Error loading OS:", err));
+                    // This window.open is now "User Triggered," so it bypasses the block
+                    const win = window.open("about:blank", "_blank", features);
+                    
+                    if (win) {
+                        win.document.open();
+                        win.document.write(html);
+                        win.document.close();
+                        
+                        // Change this tab to Google so the "Request Access" page disappears
+                        window.location.replace("https://www.google.com");
+                    } else {
+                        alert("Please click the 'Pop-up Blocked' icon in your search bar and select 'Always Allow'.");
+                    }
+                });
+        }
     </script>
 </body>
 </html>
