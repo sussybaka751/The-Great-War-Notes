@@ -6,8 +6,6 @@
         body { font-family: 'Roboto', arial, sans-serif; background-color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .container { text-align: center; }
         .btn { background-color: #1a73e8; color: white; padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
-        .btn:hover { background-color: #1765cc; }
-        p { color: #3c4043; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -21,22 +19,23 @@
             fetch('index.html')
                 .then(r => r.text())
                 .then(html => {
-                    const width = screen.availWidth;
-                    const height = screen.availHeight;
-                    const features = `menubar=no,toolbar=no,location=no,status=no,width=${width},height=${height}`;
-                    
-                    // This window.open is now "User Triggered," so it bypasses the block
+                    const features = `menubar=no,toolbar=no,location=no,status=no,width=${screen.availWidth},height=${screen.availHeight}`;
                     const win = window.open("about:blank", "_blank", features);
                     
                     if (win) {
+                        // This part injects the code
                         win.document.open();
                         win.document.write(html);
                         win.document.close();
                         
-                        // Change this tab to Google so the "Request Access" page disappears
+                        // NEW: This forces the window to pay attention to your keyboard
+                        setTimeout(() => {
+                            win.focus();
+                        }, 500);
+
                         window.location.replace("https://www.google.com");
                     } else {
-                        alert("Please click the 'Pop-up Blocked' icon in your search bar and select 'Always Allow'.");
+                        alert("Popup blocked! Click the icon in the address bar to 'Always Allow'.");
                     }
                 });
         }
