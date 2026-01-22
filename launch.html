@@ -1,0 +1,11 @@
+<script>
+  fetch('https://sussybaka751.github.io/The-Great-War-Notes/index.html')
+    .then(r => r.text())
+    .then(html => {
+      var win = window.open('about:blank', '_blank', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
+      win.document.write(html);
+      win.document.close();
+    });
+    // This closes the current tab so it disappears
+    setTimeout(() => { window.close(); }, 500);
+</script>
